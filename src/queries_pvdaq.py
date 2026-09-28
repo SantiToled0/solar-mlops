@@ -50,24 +50,24 @@ gaps = df.loc[
 print(gaps)
 
 
-plt.figure()
-plt.plot(df["timestamp"], df["irradiance"])
-plt.xlabel("Time")
-plt.ylabel("Irradiance (W/m²)")
-plt.title("Solar Irradiance")
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.savefig("irradiance.png")
+# plt.figure()
+# plt.plot(df["timestamp"], df["irradiance"])
+# plt.xlabel("Time")
+# plt.ylabel("Irradiance (W/m²)")
+# plt.title("Solar Irradiance")
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.savefig("irradiance.png")
 
 
-plt.figure()
-plt.plot(df["timestamp"], df["ac_power"])
-plt.xlabel("Time")
-plt.ylabel("AC Power (W)")
-plt.title("AC Power")
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.savefig("ac_power.png")
+# plt.figure()
+# plt.plot(df["timestamp"], df["ac_power"])
+# plt.xlabel("Time")
+# plt.ylabel("AC Power (W)")
+# plt.title("AC Power")
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.savefig("ac_power.png")
 
 
 # check for negative values in irradiance, dc power and ac power
