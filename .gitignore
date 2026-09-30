@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 data/
 .vscode/
-models/
+models/random_forest_regressor.joblib
 
 # C extensions
 *.so
@@ -181,4 +181,3 @@ cython_debug/
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
-.cursorindexingignoremodels/
