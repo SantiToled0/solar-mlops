@@ -32,8 +32,8 @@ def _as_metric_array(values: Any, name: str) -> np.ndarray:
 
 
 def calculate_regression_metrics(
-    y_true: Sequence[float] | np.ndarray,
-    y_pred: Sequence[float] | np.ndarray,
+    y_true: Sequence[float] | np.ndarray | pd.Series,
+    y_pred: Sequence[float] | np.ndarray | pd.Series,
 ) -> dict[str, float]:
     """Calculate MAE, MSE, RMSE, and R² for one set of predictions."""
     actual = _as_metric_array(y_true, "y_true")
@@ -42,11 +42,13 @@ def calculate_regression_metrics(
         raise ValueError("y_true and y_pred must have the same length")
 
     mse = float(mean_squared_error(actual, predicted))
-    r_squared = (
-        float(r2_score(actual, predicted))
-        if actual.size >= 2
-        else float("nan")
-    )
+    if actual.size < 2:
+        r_squared = float("nan")
+    else:
+        try:
+            r_squared = float(r2_score(actual, predicted))
+        except ValueError:
+            r_squared = float("nan")
     return {
         "MAE": float(mean_absolute_error(actual, predicted)),
         "MSE": mse,
@@ -56,8 +58,8 @@ def calculate_regression_metrics(
 
 
 def compare_models(
-    y_true: Sequence[float] | np.ndarray,
-    predictions: Mapping[str, Sequence[float] | np.ndarray],
+    y_true: Sequence[float] | np.ndarray | pd.Series,
+    predictions: Mapping[str, Sequence[float] | np.ndarray | pd.Series],
 ) -> pd.DataFrame:
     """Return a model comparison table sorted by MAE."""
     if not predictions:

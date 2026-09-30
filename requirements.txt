@@ -1,4 +1,11 @@
-pg8000
-python-dotenv
+duckdb
+joblib
+matplotlib
+numpy
 pandas
+psycopg[binary]
+python-dotenv
 pytest
+scikit-learn
+tensorflow
+xgboost

@@ -41,10 +41,13 @@ def _interpolate_anchors(
     values: pd.Series,
 ) -> np.ndarray:
     """Interpolate anchor values onto the original timestamps."""
-    return np.interp(
-        timestamps.astype("int64"),
-        anchor_timestamps.astype("int64"),
-        values,
+    return np.asarray(
+        np.interp(
+            timestamps.astype("int64"),
+            anchor_timestamps.astype("int64"),
+            values,
+        ),
+        dtype=np.float64,
     )
 
 
@@ -75,16 +78,19 @@ def generate_single_forecast(
     source["timestamp"] = pd.to_datetime(source["timestamp"])
     forecast_date = pd.Timestamp(forecast_date)
     end_date = forecast_date + pd.Timedelta(days=horizon_days)
-    future = source.loc[
-        (source["timestamp"] > forecast_date)
-        & (source["timestamp"] <= end_date),
-        list(_FORECAST_INPUT_COLUMNS),
-    ].copy()
+    future = (
+        source.loc[
+            (source["timestamp"] > forecast_date)
+            & (source["timestamp"] <= end_date)
+        ]
+        .reindex(columns=_FORECAST_INPUT_COLUMNS)
+        .copy()
+    )
 
     if future.empty:
         return pd.DataFrame()
 
-    future = future.sort_values("timestamp").reset_index(drop=True)
+    future = future.sort_values(by="timestamp").reset_index(drop=True)
 
     anchors = (
         future.set_index("timestamp")[["irradiance", "ambient_temp"]]
