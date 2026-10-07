@@ -6,6 +6,11 @@ data/
 .vscode/
 models/random_forest_regressor.joblib
 
+#MLflow
+mlartifacts/
+mlruns/
+mlflow.db
+
 # C extensions
 *.so
 
