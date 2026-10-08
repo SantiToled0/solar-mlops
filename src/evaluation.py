@@ -205,7 +205,7 @@ def plot_weekly_ac_power_comparison(
             week[timestamp_col],
             week[actual_col],
             label="Real",
-            color="black",
+            color="gray",
             linewidth=1.8,
             alpha=0.8,
             zorder=10,

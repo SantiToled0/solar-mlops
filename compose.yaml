@@ -31,9 +31,6 @@ services:
       postgres:
         condition: service_healthy
 
-    environment:
-      MLFLOW_BACKEND_STORE_URI: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-
     ports:
       - "5000:5000"
 
@@ -44,10 +41,11 @@ services:
       - /bin/bash
       - -c
       - |
+        set -e
         pip install --no-cache-dir "psycopg[binary]"
-        mlflow db upgrade "${MLFLOW_BACKEND_STORE_URI}"
+        mlflow db upgrade "postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
         mlflow server \
-          --backend-store-uri "${MLFLOW_BACKEND_STORE_URI}" \
+          --backend-store-uri "postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}" \
           --artifacts-destination /mlartifacts \
           --serve-artifacts \
           --host 0.0.0.0 \
